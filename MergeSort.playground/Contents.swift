@@ -2,54 +2,53 @@
 
 import UIKit
 
-// TODO mergesort
+func mergeSort<T: Comparable>(_ list: [T]) -> [T] {
+    // print("\(#function) => list = \(list)")
+    if list.count <= 1 {
+        return list
+    }
+    
+    let midIndex = list.count / 2
+    return merge(left: mergeSort([T](list[0 ..< midIndex])),
+                right: mergeSort([T](list[midIndex ..< list.endIndex])))
+    /* or:
+      let sortedLeft = mergeSort([T](list[0 ..< midIndex]))
+      let sortedRight = mergeSort([T](list[midIndex ..< list.endIndex]))
+      return merge(left: sortedLeft, right: sortedRight)
+    */
+}
 
-// In-place merge using auxillary array
-func merge(array: inout [Int], auxillary: inout [Int],
-           leftRange: CountableRange<Int>, rightRange: CountableRange<Int>) {
-
-    var leftIndex = leftRange.lowerBound
-    var rightIndex = rightRange.lowerBound
-    var auxIndex = leftIndex
-
-    while leftIndex < leftRange.upperBound && rightIndex < rightRange.upperBound {
-        if array[leftIndex] <= array[rightIndex] {
-            auxillary[auxIndex] = array[leftIndex]
-            leftIndex += 1
-            auxIndex += 1
+private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [T] {
+    // print("\(#function) => left = \(leftHalf) right = \(rightHalf)")
+    var leftIndex = leftHalf.indices.lowerBound
+    let leftEndIndex = leftHalf.indices.upperBound
+    var rightIndex = rightHalf.indices.lowerBound
+    let rightEndIndex = rightHalf.indices.upperBound
+    
+    var merged = [T]()
+    while leftIndex < leftEndIndex && rightIndex < rightEndIndex {
+        if leftHalf[leftIndex] <= rightHalf[rightIndex] {
+            merged.append(leftHalf[leftIndex])
+            leftIndex = leftIndex.advanced(by: 1)
         } else {
-            auxillary[auxIndex] = array[rightIndex]
-            rightIndex += 1
-            auxIndex += 1
+            merged.append(rightHalf[rightIndex])
+            rightIndex = rightIndex.advanced(by: 1)
         }
     }
-
-    // If left.count != right.count, finish merging the remaining elements
-    while leftIndex < leftRange.upperBound {
-        auxillary[auxIndex] = array[leftIndex]
-        leftIndex += 1
-        auxIndex += 1
+    // merge remaining
+    if leftIndex < leftEndIndex {
+        merged.append(contentsOf: Array(leftHalf[leftIndex ..< leftEndIndex]))
+    } else if rightIndex < rightEndIndex {
+        merged.append(contentsOf: Array(rightHalf[rightIndex ..< rightEndIndex]))
     }
-
-    while rightIndex < rightRange.upperBound {
-        auxillary[auxIndex] = array[rightIndex]
-        rightIndex += 1
-        auxIndex += 1
-    }
-
-    // Copy from auxillary to array
-    //for i in leftRange.lowerBound ..< auxIndex {
-    for i in leftRange.lowerBound ..< rightRange.upperBound {
-        array[i] = auxillary[i]
-    }
+    
+    return merged
 }
 
-var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-var aux = [Int]()
-for _ in 0 ..< (numbers.count) {
-    aux.append(Int.min)
-}
+let l: [Int] = [1, 3, 9, 11, 99]
+let r: [Int] = [2, 4, 8, 12, 100]
+let merged = merge(left: l, right: r)
 
-merge(array: &numbers, auxillary: &aux, leftRange: 0 ..< 5, rightRange: 5 ..< 10)
-print(a)
+let list = [99, 100, 107, 77, 22, 8, 9, 1, 50, 1000]
+let sorted = mergeSort(list)
