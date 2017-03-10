@@ -10,7 +10,7 @@ func mergeSort<T: Comparable>(_ list: [T]) -> [T] {
     
     let midIndex = list.count / 2
     return merge(left: mergeSort([T](list[0 ..< midIndex])),
-                right: mergeSort([T](list[midIndex ..< list.endIndex])))
+                 right: mergeSort([T](list[midIndex ..< list.endIndex])))
     /* or:
       let sortedLeft = mergeSort([T](list[0 ..< midIndex]))
       let sortedRight = mergeSort([T](list[midIndex ..< list.endIndex]))
@@ -19,7 +19,6 @@ func mergeSort<T: Comparable>(_ list: [T]) -> [T] {
 }
 
 private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [T] {
-    // print("\(#function) => left = \(leftHalf) right = \(rightHalf)")
     var leftIndex = leftHalf.indices.lowerBound
     let leftEndIndex = leftHalf.indices.upperBound
     var rightIndex = rightHalf.indices.lowerBound
