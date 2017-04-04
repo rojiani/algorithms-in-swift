@@ -2,12 +2,13 @@
 
 import UIKit
 
+// swiftlint:disable identifier_name
+
 func mergeSort<T: Comparable>(_ list: [T]) -> [T] {
-    // print("\(#function) => list = \(list)")
     if list.count <= 1 {
         return list
     }
-    
+
     let midIndex = list.count / 2
     return merge(left: mergeSort([T](list[0 ..< midIndex])),
                  right: mergeSort([T](list[midIndex ..< list.endIndex])))
@@ -23,8 +24,10 @@ private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [
     let leftEndIndex = leftHalf.indices.upperBound
     var rightIndex = rightHalf.indices.lowerBound
     let rightEndIndex = rightHalf.indices.upperBound
-    
+
     var merged = [T]()
+    merged.reserveCapacity(leftHalf.count + rightHalf.count)
+
     while leftIndex < leftEndIndex && rightIndex < rightEndIndex {
         if leftHalf[leftIndex] <= rightHalf[rightIndex] {
             merged.append(leftHalf[leftIndex])
@@ -40,10 +43,9 @@ private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [
     } else if rightIndex < rightEndIndex {
         merged.append(contentsOf: Array(rightHalf[rightIndex ..< rightEndIndex]))
     }
-    
+
     return merged
 }
-
 
 let l: [Int] = [1, 3, 9, 11, 99]
 let r: [Int] = [2, 4, 8, 12, 100]
