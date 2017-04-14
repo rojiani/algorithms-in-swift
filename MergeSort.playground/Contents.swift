@@ -29,20 +29,23 @@ private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [
     merged.reserveCapacity(leftHalf.count + rightHalf.count)
 
     while leftIndex < leftEndIndex && rightIndex < rightEndIndex {
-        if leftHalf[leftIndex] <= rightHalf[rightIndex] {
+        if leftHalf[leftIndex] < rightHalf[rightIndex] {
             merged.append(leftHalf[leftIndex])
             leftIndex = leftIndex.advanced(by: 1)
-        } else {
+        } else if leftHalf[leftIndex] > rightHalf[rightIndex] {
             merged.append(rightHalf[rightIndex])
+            rightIndex = rightIndex.advanced(by: 1)
+        } else {
+            merged.append(leftHalf[leftIndex])
+            merged.append(rightHalf[rightIndex])
+            leftIndex = leftIndex.advanced(by: 1)
             rightIndex = rightIndex.advanced(by: 1)
         }
     }
+    
     // merge remaining
-    if leftIndex < leftEndIndex {
-        merged.append(contentsOf: Array(leftHalf[leftIndex ..< leftEndIndex]))
-    } else if rightIndex < rightEndIndex {
-        merged.append(contentsOf: Array(rightHalf[rightIndex ..< rightEndIndex]))
-    }
+    merged.append(contentsOf: Array(leftHalf[leftIndex ..< leftEndIndex]))
+    merged.append(contentsOf: Array(rightHalf[rightIndex ..< rightEndIndex]))
 
     return merged
 }
@@ -53,3 +56,6 @@ let merged = merge(left: l, right: r)
 
 let list = [99, 100, 107, 77, 22, 8, 9, 1, 50, 1000]
 let sorted = mergeSort(list)
+
+let listWithDups = [1, 7, 1, 2, 1, 8, 7, 2, 3]
+let sorted2 = mergeSort(listWithDups)
