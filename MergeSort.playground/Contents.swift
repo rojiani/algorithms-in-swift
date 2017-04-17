@@ -42,7 +42,7 @@ private func merge<T: Comparable>(left leftHalf: [T], right rightHalf: [T]) -> [
             rightIndex = rightIndex.advanced(by: 1)
         }
     }
-    
+
     // merge remaining
     merged.append(contentsOf: Array(leftHalf[leftIndex ..< leftEndIndex]))
     merged.append(contentsOf: Array(rightHalf[rightIndex ..< rightEndIndex]))

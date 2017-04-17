@@ -1,9 +1,9 @@
 import Foundation
 
-// https://www.hackerearth.com/practice/basic-programming/recursion/recursion-and-backtracking/practice-problems/algorithm/n-queensrecursion-tutorial/
-// https://en.wikipedia.org/wiki/Eight_queens_puzzle
+// swiftlint:disable variable_name line_length for_where
 
-// swiftlint:disable variable_name line_length
+//: [HackerEarth Tutorial](https://www.hackerearth.com/practice/basic-programming/recursion/recursion-and-backtracking/practice-problems/algorithm/n-queensrecursion-tutorial/)
+// https://en.wikipedia.org/wiki/Eight_queens_puzzle
 
 typealias Chessboard = [[Square]]
 

@@ -7,11 +7,11 @@ import UIKit
 // In-place merge using auxillary array
 func merge(array: inout [Int], auxillary: inout [Int],
            leftRange: CountableRange<Int>, rightRange: CountableRange<Int>) {
-    
+
     var leftIndex = leftRange.lowerBound
     var rightIndex = rightRange.lowerBound
     var auxIndex = leftIndex
-    
+
     while leftIndex < leftRange.upperBound && rightIndex < rightRange.upperBound {
         if array[leftIndex] <= array[rightIndex] {
             auxillary[auxIndex] = array[leftIndex]
@@ -23,20 +23,20 @@ func merge(array: inout [Int], auxillary: inout [Int],
             auxIndex += 1
         }
     }
-    
+
     // If left.count != right.count, finish merging the remaining elements
     while leftIndex < leftRange.upperBound {
         auxillary[auxIndex] = array[leftIndex]
         leftIndex += 1
         auxIndex += 1
     }
-    
+
     while rightIndex < rightRange.upperBound {
         auxillary[auxIndex] = array[rightIndex]
         rightIndex += 1
         auxIndex += 1
     }
-    
+
     // Copy from auxillary to array
     //for i in leftRange.lowerBound ..< auxIndex {
     for i in leftRange.lowerBound ..< rightRange.upperBound {
